@@ -15,7 +15,8 @@ fun JcType.toRaw(): JcType {
 
 fun JcType.allRawSuperHierarchySequence(): Sequence<JcType> = toRaw().run {
     return when (this) {
-        is JcRefType -> sequenceOf(this) + this.jcClass.allSuperHierarchySequence.distinct().map { it.toType() }
+        is JcRefType -> (sequenceOf(this, classpath.objectType)
+                + this.jcClass.allSuperHierarchySequence.distinct().map { it.toType() }).distinct()
         else -> sequenceOf(this)
     }
 }
