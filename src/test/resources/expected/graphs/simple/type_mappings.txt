@@ -1,0 +1,10 @@
+0: void
+1: java.lang.Object
+2: java.lang.Object[]
+3: java.lang.StringBuilder
+4: java.lang.CharSequence
+5: int[]
+6: me.cfpq.pointsto.miner.sample.simple.ExpressionsSample
+7: java.lang.String
+8: double
+9: int

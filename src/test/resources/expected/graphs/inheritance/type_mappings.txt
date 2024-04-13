@@ -1,0 +1,5 @@
+0: void
+1: java.lang.String
+2: me.cfpq.pointsto.miner.sample.inheritance.Animal
+3: me.cfpq.pointsto.miner.sample.inheritance.Cat
+4: java.lang.Object

@@ -1,0 +1,3 @@
+0: PtArrayElementField
+1: PtSimpleField(field=(id:72)me.cfpq.pointsto.miner.sample.simple.ExpressionsSample#fieldWithAccessors)
+2: PtSimpleField(field=(id:72)me.cfpq.pointsto.miner.sample.simple.SimpleSampleKt#PI)
