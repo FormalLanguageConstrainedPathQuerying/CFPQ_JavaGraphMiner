@@ -49,28 +49,32 @@ fun readGraph(paths: GraphPaths): DeserializedGraph {
                 val (source, target, label) = parts
                 val field = parts.getOrNull(3)
                 TestEdge(
-                    vertexMappings.getValue(source.toInt()),
-                    vertexMappings.getValue(target.toInt()),
+                    vertexMappings.getValue(source.toInt()).withoutJacoDbIds(),
+                    vertexMappings.getValue(target.toInt()).withoutJacoDbIds(),
                     label,
-                    field?.let { fieldMappings.getValue(it.toInt()) }
+                    field?.let { fieldMappings.getValue(it.toInt()) }?.withoutJacoDbIds()
                 )
             }.toSet()
         },
         vertexToType = paths.typesURL.openStream().bufferedReader().useLines { lines ->
             lines.associate { line ->
                 val (vertex, type) = line.splitWords()
-                vertexMappings.getValue(vertex.toInt()) to typeMappings.getValue(type.toInt())
+                vertexMappings.getValue(vertex.toInt()).withoutJacoDbIds() to typeMappings.getValue(type.toInt())
             }
         },
         vertexToSupTypes = paths.typesURL.openStream().bufferedReader().useLines { lines ->
             lines.map { line ->
                 val (vertex, type) = line.splitWords()
-                vertexMappings.getValue(vertex.toInt()) to typeMappings.getValue(type.toInt())
+                vertexMappings.getValue(vertex.toInt()).withoutJacoDbIds() to typeMappings.getValue(type.toInt())
             }
                 .groupBy(keySelector = { it.first }, valueTransform = { it.second })
                 .mapValues { it.value.toSet() }
         }
     )
 }
+
+// JacoDB generates JRE-dependent ID for every method and field (e.g. `(id:7)java.lang.Object#<init>()`)
+private fun String.withoutJacoDbIds(): String =
+    replace("""\(id:\d+\)""".toRegex(), "(id:jre-dependent)")
 
 private fun String.splitWords() = split("\\s+".toRegex())
